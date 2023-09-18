@@ -18,7 +18,7 @@ const client = new Client({
 });
 
 client.once("ready", () => {
-  console.log("Logged in");
+  console.log(`Logged in as ${client.user?.tag}!`);
 
   // Schedule a task to run every 5 minutes
   cron.schedule("*/5 * * * *", async () => {
