@@ -14,11 +14,11 @@ if (!process.env.SECRET_KEY) {
   );
 }
 
-export const baseAccount = await WalletClient.getAccountFromSecretKey(
+const baseAccount = await WalletClient.getAccountFromSecretKey(
   process.env.SECRET_KEY
 );
 
-const node_net_1: Array<IProvider> = [
+const node_net: Array<IProvider> = [
   {
     url: "http://127.0.0.1:33035",
     type: ProviderType.PUBLIC,
@@ -29,25 +29,10 @@ const node_net_1: Array<IProvider> = [
   },
 ];
 
-const node_net_2: Array<IProvider> = [
-  {
-    url: "http://127.0.0.1:33035",
-    type: ProviderType.PUBLIC,
-  },
-  {
-    url: "http://127.0.0.1:33034",
-    type: ProviderType.PRIVATE,
-  },
-];
-
-export const client1 = await ClientFactory.createCustomClient(
-  node_net_1,
+const customClient = await ClientFactory.createCustomClient(
+  node_net,
   true,
   baseAccount
 );
 
-export const client2 = await ClientFactory.createCustomClient(
-  node_net_2,
-  true,
-  baseAccount
-);
+export default customClient;

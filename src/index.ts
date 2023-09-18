@@ -1,7 +1,8 @@
 import { Client, TextChannel, GatewayIntentBits } from "discord.js";
 import cron from "node-cron";
 import * as dotenv from "dotenv";
-import { client1, client2 } from "./client.js";
+import customClient from "./client.js";
+import { Client as MassaClient } from "@massalabs/massa-web3";
 
 dotenv.config();
 
@@ -19,25 +20,24 @@ const client = new Client({
 
 client.once("ready", () => {
   console.log(`Logged in as ${client.user?.tag}!`);
+  const channel = client.channels.cache.get(CHANNEL_ID) as TextChannel;
+  const walletAddress = customClient.wallet().getBaseAccount().address;
 
   // Schedule a task to run every 5 minutes
-  cron.schedule("*/5 * * * *", async () => {
-    const channel = client.channels.cache.get(CHANNEL_ID) as TextChannel;
-    if (channel) {
-      async function getNodeStatus(client: any, number: number) {
+  if (channel) {
+    cron.schedule("*/5 * * * *", async () => {
+      async function getNodeStatus(massaClient: MassaClient) {
         try {
-          const node = await client.publicApi().getNodeStatus();
-          console.log(node);
-          channel.send(`Node ${number} is up`);
+          const node = await massaClient.publicApi().getNodeStatus();
+          channel.send(`✅ Node is up for ${walletAddress}`);
         } catch (e) {
           console.log(e);
-          channel.send(`@everyone Node ${number} crashed`);
+          channel.send(`@everyone 🚨 Node crashed for ${walletAddress}`);
         }
       }
-      getNodeStatus(client1, 1);
-      getNodeStatus(client2, 2);
-    }
-  });
+      getNodeStatus(customClient);
+    });
+  }
 });
 
 client.login(TOKEN);
