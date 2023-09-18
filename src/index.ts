@@ -18,10 +18,10 @@ const client = new Client({
 });
 
 client.once("ready", () => {
-  console.log(`Logged in as ${client.user?.tag}!`);
+  console.log("Logged in");
 
   // Schedule a task to run every 5 minutes
-  cron.schedule("*/1 * * * *", async () => {
+  cron.schedule("*/5 * * * *", async () => {
     const channel = client.channels.cache.get(CHANNEL_ID) as TextChannel;
     if (channel) {
       async function getNodeStatus(client: any, number: number) {
