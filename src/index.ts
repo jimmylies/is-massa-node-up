@@ -1,7 +1,7 @@
 import { Client, TextChannel, GatewayIntentBits } from "discord.js";
 import cron from "node-cron";
 import * as dotenv from "dotenv";
-import customClient from "./client.js";
+import customClient, { walletAddress } from "./client.js";
 import { Client as MassaClient } from "@massalabs/massa-web3";
 
 dotenv.config();
@@ -21,7 +21,7 @@ const client = new Client({
 client.once("ready", () => {
   console.log(`Logged in as ${client.user?.tag}!`);
   const channel = client.channels.cache.get(CHANNEL_ID) as TextChannel;
-  const walletAddress = customClient.wallet().getBaseAccount().address;
+  // const walletAddress = customClient.wallet().getBaseAccount().address;
 
   // Schedule a task to run every 5 minutes
   if (channel) {

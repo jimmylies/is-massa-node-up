@@ -14,7 +14,7 @@
   "dependencies": {
     "@discordjs/builders": "^1.6.1",
     "@discordjs/rest": "^1.7.0",
-    "@massalabs/massa-web3": "^1.16.1",
+    "@massalabs/massa-web3": "^3.0.2",
     "discord-api-types": "^0.37.39",
     "discord.js": "^14.9.0",
     "dotenv": "^16.0.3",

@@ -1,22 +1,21 @@
 import {
+  CHAIN_ID,
   ClientFactory,
   IProvider,
   ProviderType,
-  WalletClient,
+  // WalletClient,
 } from "@massalabs/massa-web3";
 import * as dotenv from "dotenv";
 
 dotenv.config();
 
-if (!process.env.SECRET_KEY) {
+if (!process.env.WALLET_ADDRESS) {
   throw new Error(
-    'SECRET_KEY is not set. Did you create environment file ".env" ?'
+    'WALLET_ADDRESS is not set. Did you create environment file ".env" ?'
   );
 }
 
-const baseAccount = await WalletClient.getAccountFromSecretKey(
-  process.env.SECRET_KEY
-);
+export const walletAddress = process.env.WALLET_ADDRESS;
 
 const node_net: Array<IProvider> = [
   {
@@ -31,8 +30,8 @@ const node_net: Array<IProvider> = [
 
 const customClient = await ClientFactory.createCustomClient(
   node_net,
-  true,
-  baseAccount
+  CHAIN_ID.MainNet,
+  true
 );
 
 export default customClient;
